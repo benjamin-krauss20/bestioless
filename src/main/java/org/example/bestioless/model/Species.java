@@ -15,7 +15,7 @@ public class Species {
     @Column(name = "latin_name")
     private String latinName;
 
-    // Getters et Setters (indispensables)
+    // Getters et Setters
     public Integer getId() { return id; }
     public String getCommonName() { return commonName; }
     public void setCommonName(String commonName) { this.commonName = commonName; }

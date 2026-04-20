@@ -2,17 +2,17 @@ package org.example.bestioless.repository;
 
 import org.example.bestioless.model.Species;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import java.util.List;
 
-@Repository
 public interface SpeciesRepository extends JpaRepository<Species, Integer> {
 
+    // TP 05 : Query ordonnée
+    @Query("SELECT s FROM Species s ORDER BY s.commonName ASC")
+    List<Species> findAllOrderedByCommonName();
 
-    // Retourne la première espèce par son nom commun exact
-    Species findFirstByCommonName(String commonName);
-
-    // Liste des espèces dont le nom latin contient la saisie (sans tenir compte de la casse)
-    List<Species> findByLatinNameContainingIgnoreCase(String latinName);
+    // TP 05 : Query Like
+    @Query("SELECT s FROM Species s WHERE s.commonName LIKE %:name%")
+    List<Species> findByCommonNameLike(@Param("name") String name);
 }

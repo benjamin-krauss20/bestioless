@@ -1,15 +1,19 @@
 package org.example.bestioless.repository;
 
 import org.example.bestioless.model.Person;
+import org.example.bestioless.model.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import java.util.List;
 
-@Repository
-public interface PersonRepository extends JpaRepository<Person, Integer> {// Recherche par nom OU par prénom
-    List<Person> findByLastnameOrFirstname(String lastname, String firstname);
+public interface PersonRepository extends JpaRepository<Person, Integer> {
 
-    // Personnes ayant un âge >= au paramètre
-    List<Person> findByAgeGreaterThanEqual(Integer age);
+    // TP 05 : Query Between
+    @Query("SELECT p FROM Person p WHERE p.age BETWEEN :ageMin AND :ageMax")
+    List<Person> findByAgeBetween(@Param("ageMin") Integer ageMin, @Param("ageMax") Integer ageMax);
+
+    // TP 05 : Query Jointure (Difficile)
+    @Query("SELECT p FROM Person p JOIN p.animals a WHERE a = :animal")
+    List<Person> findByAnimal(@Param("animal") Animal animal);
 }
