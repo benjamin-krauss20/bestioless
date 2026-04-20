@@ -22,27 +22,16 @@ public class BestiolessApplication implements CommandLineRunner {
 	}
 
 	@Override
+
 	public void run(String... args) throws Exception {
-		System.out.println("--- DÉBUT DES TESTS ---");
+		System.out.println("--- TEST TP 04 ---");
 
-		// 1. Afficher tout (findAll) [cite: 90]
-		personRepository.findAll().forEach(p ->
-				System.out.println("Personne en BDD : " + p.getFirstname() + " " + p.getLastname()));
+		// Test Species : Nom latin contenant "felis"
+		speciesRepository.findByLatinNameContainingIgnoreCase("felis")
+				.forEach(s -> System.out.println("Trouvé : " + s.getCommonName()));
 
-		// 2. Créer une entité (save) [cite: 91]
-		Person nouvellePersonne = new Person();
-		nouvellePersonne.setFirstname("Benjamin");
-		nouvellePersonne.setLastname("K");
-		personRepository.save(nouvellePersonne);
-		System.out.println("Nouvelle personne enregistrée !");
-
-		// 3. Rechercher par ID (findById) [cite: 92]
-		personRepository.findById(1).ifPresent(p ->
-				System.out.println("ID 1 trouvé : " + p.getFirstname()));
-
-		// 4. Supprimer (delete) [cite: 93]
-		// personRepository.deleteById(1);
-
-		System.out.println("--- TESTS TERMINÉS ---");
+		// Test Person : Plus de 30 ans
+		personRepository.findByAgeGreaterThanEqual(30)
+				.forEach(p -> System.out.println(p.getFirstname() + " a plus de 30 ans."));
 	}
 }
